@@ -1,0 +1,1 @@
+info_router = APIRouter(tags=[Tags.info], prefix='/api/info')

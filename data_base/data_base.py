@@ -1,24 +1,36 @@
 import asyncio
+from fastapi import APIRouter, Body, status, HTTPException, Depends
+from fastapi.responses import JSONResponse, Response
 from config.config import settings
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy import text, create_engine
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
+from models.movies import Base
+from models.generalModels import Tags
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy import select
+from models.userModels import User, UserEntity
 
-DATABASE_URI_ASYNC = "postgresql+asyncpg://adminMovie:5806719824@localhost:5455/movies"
+engine = create_async_engine(
+    settings.DATABASE_URL_ASYNC,
+    echo=True,
+)
+AsyncSessionLocal = sessionmaker(
+    bind=engine, class_=AsyncSession, expire_on_commit=False
+)
 
-URI_SYNC = settings.DATABASE_URL_SYNC
-URI_ASYNC = settings.DATABASE_URL_ASYNC
-
-print(URI_SYNC)
-print(URI_ASYNC)
-print(DATABASE_URI_ASYNC)
-
-engine = create_async_engine(URI_ASYNC, echo=True)
-
-
-async def connect_to_database():
-    async with engine.connect() as connection:
-        result = await connection.execute(text("select version()"))
-        print(f"answer = {result.all()}")
+users_router = APIRouter(tags=[Tags.users], prefix='/api/users')
 
 
-asyncio.run(connect_to_database())
+async def init_db():
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(select(UserEntity))
+        data = result.fetchall()
+        print(data)
+
+# async def init_db():
+#     Base.metadata.create_all(bind=engine_async)
+
+
+async def get_session() -> AsyncSession:
+    async with AsyncSessionLocal() as session:
+        yield session
