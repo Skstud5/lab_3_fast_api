@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from data_base.data_base import init_db
 from api.usersApi import users_router
+from api.userAdditionalInfo import user_additional_info_router
+from models.generalModels import Tags
 
 app = FastAPI(
     version="0.1.1",
@@ -11,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(users_router)
+app.include_router(user_additional_info_router)
 
 
 class LogWriter:
@@ -39,7 +42,7 @@ app.add_event_handler("startup", startup_event)
 app.add_event_handler("shutdown", shutdown_event)
 
 
-@app.get("/", response_class=PlainTextResponse, tags=["Main controller"])
+@app.get("/", response_class=PlainTextResponse, tags=[Tags.main])
 def root_page():
     return "Добро пожаловать!"
 

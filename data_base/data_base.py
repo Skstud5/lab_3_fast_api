@@ -1,13 +1,7 @@
-from fastapi import APIRouter
 from config.config import settings
 from sqlalchemy.orm import sessionmaker
-from models.generalModels import Tags
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy import select, MetaData
-from models.userModels import UserEntity, Base
-from sqlalchemy.orm import Session
-from sqlalchemy.schema import CreateTable
-from sqlalchemy import Table
+from models.userModels import Base
 
 engine = create_async_engine(
     settings.DATABASE_URL_ASYNC,

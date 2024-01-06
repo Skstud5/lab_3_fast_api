@@ -3,9 +3,10 @@ from enum import Enum
 
 
 class Tags(Enum):
-    users = "users"
-    movies = "movies"
-    info = "info"
+    main = "Main Controller"
+    users = "Users"
+    movies = "Movies"
+    user_additional_info = "User Additional Info"
 
 
 class NewResponse(BaseModel):
