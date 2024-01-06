@@ -1,6 +1,6 @@
 from typing import Union, Annotated
 from pydantic import BaseModel, Field, HttpUrl
-from sqlalchemy import Column, String, Integer, Sequence
+from sqlalchemy import Column, String, Integer, Sequence, ForeignKey, DateTime
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -13,17 +13,15 @@ class UserEntity(Base):
     hash_password = Column(String)
 
 
+class CommentsEntity(Base):
+    __tablename__ = "comments"
+    id = Column(Integer, primary_key=True)
+    id_user = Column(Integer, ForeignKey("users.id"))
+    time = Column(DateTime)
+    data = Column(String)
+
+
 class User(BaseModel):
     id: int
     name: str
     hash_password: str
-
-
-class Photo(BaseModel):
-    url: HttpUrl
-    name: Union[str, None] = None
-
-
-class MainUser(BaseModel):
-    name: Union[str, None] = None
-    id: Annotated[Union[int, None], Field(default=100, ge=1, lt=200)] = None
