@@ -40,7 +40,8 @@ async def create_user(cr_user: User, data_base: AsyncSession = Depends(get_sessi
         async with data_base.begin():
             data_base.add(user)
             await data_base.commit()
-            await data_base.refresh(user)
+
+        await data_base.refresh(user)
         result = User(id=user.id, name=user.name, hash_password=user.hash_password)
         return result
     except Exception as exc:
