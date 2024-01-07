@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from sqlalchemy import Column, String, Integer, Sequence, ForeignKey
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship, backref
 
 Base = declarative_base()
 
@@ -10,10 +10,11 @@ class UserEntity(Base):
     id = Column(Integer, Sequence("user_sequence"), primary_key=True)
     name = Column(String, index=True, nullable=False)
     hash_password = Column(String)
+    additional_info = relationship("UserAdditionalInfoEntity", cascade="all,delete", backref="UserEntity")
 
 
 class UserAdditionalInfoEntity(Base):
-    __tablename__ = "comments"
+    __tablename__ = "additional_info"
     id = Column(Integer, primary_key=True)
     id_user = Column(Integer, ForeignKey("users.id"))
     data = Column(String)

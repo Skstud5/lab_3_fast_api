@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from data_base.data_base import init_db
 from api.usersApi import users_router
-from api.userAdditionalInfo import user_additional_info_router
+from api.userAdditionalInfoApi import user_additional_info_router
 from models.generalModels import Tags
 
 app = FastAPI(

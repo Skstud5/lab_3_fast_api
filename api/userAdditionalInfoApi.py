@@ -48,6 +48,9 @@ async def get_additional_user_info(identifier: int, data_base: Session = Depends
 
 @user_additional_info_router.post("/", response_model=UserAdditionalInfo)
 async def create_additional_info(cr_user: UserAdditionalInfo, data_base: AsyncSession = Depends(get_session)):
+    """
+    Создать дополнительную информация для пользователя
+    """
     try:
         user_additional_info = UserAdditionalInfoEntity(id_user=cr_user.id_user, data=cr_user.data)
         if user_additional_info is None:
@@ -68,6 +71,9 @@ async def create_additional_info(cr_user: UserAdditionalInfo, data_base: AsyncSe
 
 @user_additional_info_router.delete("/", response_model=UserAdditionalInfo)
 async def delete_additional_info(identifier: int, data_base: AsyncSession = Depends(get_session)):
+    """
+    Удалить дополнительную информация для пользователя
+    """
     try:
         async with data_base.begin():
             query = select(UserAdditionalInfoEntity).where(UserAdditionalInfoEntity.id == identifier)
@@ -87,18 +93,18 @@ async def delete_additional_info(identifier: int, data_base: AsyncSession = Depe
 @user_additional_info_router.put("/{id}", response_model=UserAdditionalInfo)
 async def update_user_additional_info(identifier: int, updated_info: UserAdditionalInfo,
                                       data_base: AsyncSession = Depends(get_session)):
+    """
+    Полное обновление дополнительной информации для пользователя
+    """
     try:
         async with data_base.begin():
-            # Поиск записи по ID
             query = select(UserAdditionalInfoEntity).where(UserAdditionalInfoEntity.id == identifier)
             result = await data_base.execute(query)
             existing_info = result.scalar()
 
-            # Проверка наличия записи
             if existing_info is None:
                 raise HTTPException(status_code=404, detail="Запись не найдена")
 
-            # Полное обновление записи
             existing_info.id_user = updated_info.id_user
             existing_info.data = updated_info.data
 
@@ -110,6 +116,9 @@ async def update_user_additional_info(identifier: int, updated_info: UserAdditio
 @user_additional_info_router.patch("/{id}", response_model=UserAdditionalInfo)
 async def partial_update_user_additional_info(identifier: int, updated_info: UserAdditionalInfo,
                                               data_base: AsyncSession = Depends(get_session)):
+    """
+    Частичное обновление дополнительной информации для пользователя
+    """
     try:
         async with data_base.begin():
             query = select(UserAdditionalInfoEntity).where(UserAdditionalInfoEntity.id == identifier)

@@ -14,6 +14,7 @@ AsyncSessionLocal = sessionmaker(
 
 async def init_db():
     async with engine.begin() as conn:
+        # Если нужно дропнуть всю базу, то необходимо использовать строку ниже
         # await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
