@@ -47,7 +47,7 @@ import logging
 @movies_router.post("/", response_model=Movie)
 async def create_movie(cr_movie: Movie, data_base: AsyncSession = Depends(get_session)):
     """
-    Создать пользователя
+    Создать фильм
     """
     try:
         movie = MovieEntity(
@@ -100,49 +100,65 @@ async def delete_movie(identifier: int, data_base: AsyncSession = Depends(get_se
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Ошибка при удалении: {exc}")
 
-# @movies_router.put("/{id}", response_model=UserAdditionalInfo)
-# async def update_user_additional_info(identifier: int, updated_info: UserAdditionalInfo,
-#                                       data_base: AsyncSession = Depends(get_session)):
-#     """
-#     Полное обновление дополнительной информации для пользователя
-#     """
-#     try:
-#         async with data_base.begin():
-#             query = select(UserAdditionalInfoEntity).where(UserAdditionalInfoEntity.id == identifier)
-#             result = await data_base.execute(query)
-#             existing_info = result.scalar()
-#
-#             if existing_info is None:
-#                 raise HTTPException(status_code=404, detail="Запись не найдена")
-#
-#             existing_info.id_user = updated_info.id_user
-#             existing_info.data = updated_info.data
-#
-#         return existing_info
-#     except Exception as exc:
-#         raise HTTPException(status_code=500, detail=f"Ошибка при обновлении: {exc}")
-#
-#
-# @movies_router.patch("/{id}", response_model=UserAdditionalInfo)
-# async def partial_update_user_additional_info(identifier: int, updated_info: UserAdditionalInfo,
-#                                               data_base: AsyncSession = Depends(get_session)):
-#     """
-#     Частичное обновление дополнительной информации для пользователя
-#     """
-#     try:
-#         async with data_base.begin():
-#             query = select(UserAdditionalInfoEntity).where(UserAdditionalInfoEntity.id == identifier)
-#             result = await data_base.execute(query)
-#             existing_info = result.scalar()
-#
-#             if existing_info is None:
-#                 raise HTTPException(status_code=404, detail="Запись не найдена")
-#
-#             if updated_info.id_user:
-#                 existing_info.id_user = updated_info.id_user
-#             if updated_info.data:
-#                 existing_info.data = updated_info.data
-#
-#         return existing_info
-#     except Exception as exc:
-#         raise HTTPException(status_code=500, detail=f"Ошибка при частичном обновлении: {exc}")
+
+@movies_router.put("/{id}", response_model=Movie)
+async def update_movie(identifier: int, updated_info: Movie,
+                       data_base: AsyncSession = Depends(get_session)):
+    """
+    Полное обновление фильма
+    """
+    try:
+        async with data_base.begin():
+            query = select(MovieEntity).where(MovieEntity.id == identifier)
+            result = await data_base.execute(query)
+            existing_info = result.scalar()
+
+            if existing_info is None:
+                raise HTTPException(status_code=404, detail="Запись не найдена")
+
+            existing_info.id = updated_info.id
+            existing_info.title = updated_info.title
+            existing_info.release_year = updated_info.release_year
+            existing_info.genre = updated_info.genre
+            existing_info.rating = updated_info.rating
+            existing_info.is_published = updated_info.is_published
+            existing_info.director_id = updated_info.director_id
+
+        return existing_info
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Ошибка при обновлении: {exc}")
+
+
+@movies_router.patch("/{id}", response_model=Movie)
+async def partial_update_movie(identifier: int, updated_info: Movie,
+                               data_base: AsyncSession = Depends(get_session)):
+    """
+    Частичное обновление фильма
+    """
+    try:
+        async with data_base.begin():
+            query = select(MovieEntity).where(MovieEntity.id == identifier)
+            result = await data_base.execute(query)
+            existing_info = result.scalar()
+
+            if existing_info is None:
+                raise HTTPException(status_code=404, detail="Запись не найдена")
+
+            if updated_info.id:
+                existing_info.id = updated_info.id
+            if updated_info.title:
+                existing_info.title = updated_info.title
+            if updated_info.release_year:
+                existing_info.release_year = updated_info.release_year
+            if updated_info.genre:
+                existing_info.genre = updated_info.genre
+            if updated_info.rating:
+                existing_info.rating = updated_info.rating
+            if updated_info.is_published:
+                existing_info.is_published = updated_info.is_published
+            if updated_info.director_id:
+                existing_info.director_id = updated_info.director_id
+
+        return existing_info
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Ошибка при частичном обновлении: {exc}")
