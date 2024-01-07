@@ -5,15 +5,17 @@ from fastapi.responses import PlainTextResponse
 from data_base.data_base import init_db
 from api.usersApi import users_router
 from api.userAdditionalInfoApi import user_additional_info_router
+from api.moviesApi import movies_router
 from models.generalModels import Tags
 
 app = FastAPI(
-    version="0.1.1",
+    version="0.1.2",
     description="Задание реализующее CRUD на FastAPI. Выполнил Скрипченко С.Д."
 )
 
 app.include_router(users_router)
 app.include_router(user_additional_info_router)
+app.include_router(movies_router)
 
 
 class LogWriter:

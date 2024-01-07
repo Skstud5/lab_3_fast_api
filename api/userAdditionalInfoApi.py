@@ -19,7 +19,7 @@ def password_encryption(password: str):
 @user_additional_info_router.get("/", response_model=List[UserAdditionalInfo])
 async def get_all_additional_user_info(user_id: int, data_base: Session = Depends(get_session)):
     """
-    Получить запись дополнительной информации о пользователе по ID
+    Получить все записи дополнительной информации о пользователе по ID
     """
     async with data_base.begin():
         query = select(UserAdditionalInfoEntity).filter(UserAdditionalInfoEntity.id_user == user_id)
@@ -34,7 +34,7 @@ async def get_all_additional_user_info(user_id: int, data_base: Session = Depend
 @user_additional_info_router.get("/{id}", response_model=UserAdditionalInfo)
 async def get_additional_user_info(identifier: int, data_base: Session = Depends(get_session)):
     """
-    Получить всю дополнительную информацию о пользователе
+    Получить дополнительную информацию о пользователе по ID
     """
     async with data_base.begin():
         query = select(UserAdditionalInfoEntity).where(UserAdditionalInfoEntity.id == identifier)

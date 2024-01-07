@@ -1,7 +1,8 @@
 from config.config import settings
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from models.userModels import Base
+from models.userModels import BaseUser
+from models.moviesModels import BaseMovies
 
 engine = create_async_engine(
     settings.DATABASE_URL_ASYNC,
@@ -14,9 +15,11 @@ AsyncSessionLocal = sessionmaker(
 
 async def init_db():
     async with engine.begin() as conn:
-        # Если нужно дропнуть всю базу, то необходимо использовать строку ниже
-        # await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
+        # Если нужно дропнуть всю базу, то необходимо использовать строки ниже
+        # await conn.run_sync(BaseUser.metadata.drop_all)
+        # await conn.run_sync(BaseMovies.metadata.drop_all)
+        await conn.run_sync(BaseUser.metadata.create_all)
+        await conn.run_sync(BaseMovies.metadata.create_all)
 
 
 async def get_session() -> AsyncSession:
