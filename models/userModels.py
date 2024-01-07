@@ -12,11 +12,17 @@ class UserEntity(Base):
     hash_password = Column(String)
 
 
-class UserAdditionalInfo(Base):
+class UserAdditionalInfoEntity(Base):
     __tablename__ = "comments"
     id = Column(Integer, primary_key=True)
     id_user = Column(Integer, ForeignKey("users.id"))
     data = Column(String)
+
+
+class UserAdditionalInfo(BaseModel):
+    id: int
+    id_user: int
+    data: str
 
 
 class User(BaseModel):
