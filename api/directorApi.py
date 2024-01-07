@@ -8,7 +8,7 @@ from sqlalchemy import select
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 
-directors_router = APIRouter(tags=[Tags.movies], prefix='/api/movies')
+directors_router = APIRouter(tags=[Tags.directors], prefix='/api/directors')
 
 
 @directors_router.get("/", response_model=List[Director])

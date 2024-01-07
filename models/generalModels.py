@@ -6,6 +6,7 @@ class Tags(Enum):
     main = "Main Controller"
     users = "Users"
     movies = "Movies"
+    directors = "Directors"
     user_additional_info = "User Additional Info"
 
 
