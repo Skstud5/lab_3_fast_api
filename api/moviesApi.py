@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from models.generalModels import Tags
-from models.moviesModels import MovieEntity, Movie, DirectorEntity, Director
+from models.moviesModels import MovieEntity, Movie
 from data_base.data_base import get_session
 from fastapi import HTTPException
 from sqlalchemy import select

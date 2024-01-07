@@ -6,6 +6,7 @@ from data_base.data_base import init_db
 from api.usersApi import users_router
 from api.userAdditionalInfoApi import user_additional_info_router
 from api.moviesApi import movies_router
+from api.directorApi import directors_router
 from models.generalModels import Tags
 
 app = FastAPI(
@@ -16,6 +17,7 @@ app = FastAPI(
 app.include_router(users_router)
 app.include_router(user_additional_info_router)
 app.include_router(movies_router)
+app.include_router(directors_router)
 
 
 class LogWriter:
