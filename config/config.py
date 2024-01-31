@@ -5,8 +5,10 @@ import os
 class Settings:
     app_name: str = "New API"
     admin_email: str = "d1225ssd@rb.asu.ru"
-    DATABASE_URL_SYNC: str = "postgresql://adminMovie:5806719824@localhost:5455/movies"
-    DATABASE_URL_ASYNC: str = "postgresql+asyncpg://adminMovie:5806719824@localhost:5455/movies"
+    # DATABASE_URL_SYNC: str = "postgresql://adminMovie:5806719824@localhost:5455/movies"
+    # DATABASE_URL_ASYNC: str = "postgresql+asyncpg://adminMovie:5806719824@localhost:5455/movies"
+    DATABASE_URL_SYNC: str = "postgresql://adminMovie:5806719824@host.docker.internal:5455/movies"
+    DATABASE_URL_ASYNC: str = "postgresql+asyncpg://adminMovie:5806719824@host.docker.internal:5455/movies"
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_HOST: str
